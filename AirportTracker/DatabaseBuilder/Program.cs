@@ -55,7 +55,7 @@ public class AirportDataIngestor
                 continue; //In safe mode, skips the slow step if the route isn't between two airports in the first 300
 
             cypher.CreateRoute(tokens);
-            Thread.Sleep(10);
+            Thread.Sleep(5);
         }
         Console.WriteLine("]\nRoute relations added.");
         return progressCounter;
@@ -77,7 +77,7 @@ public class AirportDataIngestor
                 tokens.RemoveRange(2, 2);
             }
             cypher.CreateAirport(tokens);
-            Thread.Sleep(10);
+            Thread.Sleep(5);
 
             progressCounter++;
             if (progressCounter % ((quickModeEnabled ? 300 : 7698) / 20) == 0)
