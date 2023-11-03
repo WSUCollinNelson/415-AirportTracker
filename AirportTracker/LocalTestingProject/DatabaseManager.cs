@@ -54,6 +54,22 @@ namespace AirportTracker
             return airport;
 		}
 
+		// TODO can do a shortest path, but for now just take the first one
+		public List<Route> GetPathBetweenAirports(Airport source, Airport destination)
+		{
+			List<Route> path = new List<Route>();
+
+            var adjacentQueryResult = RunCypher(
+				@$"MATCH(a:Airport {{id: {source.Id}}})--> (n)
+				RETURN n.id").Result;
+
+			Console.WriteLine(adjacentQueryResult["n.id"]);
+
+            // only worry about source id and dest id for the time being
+
+            return path;
+		}
+
 		// TODO: note, there are problems if the query does not limit the number of returns to 1
 		private async Task<IReadOnlyDictionary<string,object>> RunCypher(string cypher)
 		{
