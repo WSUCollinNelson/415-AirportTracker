@@ -1,0 +1,26 @@
+﻿svg {
+    position: fixed;
+    height: 150%;
+    width: auto;
+    display: inline;
+    transform: rotate(-135deg) translate(-20%, 50%);
+    top: 0;
+    right: -20px;
+    stroke: #3D52D5;
+    fill: #3D52D5;
+    animation-name: float;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    animation-direction: alternate;
+}
+
+@keyframes float {
+    from {
+        transform: rotate(-135deg) translate(-20%, 50%);
+    }
+
+    to {
+        transform: rotate(-135deg) translate(-18%, 48%);
+    }
+}

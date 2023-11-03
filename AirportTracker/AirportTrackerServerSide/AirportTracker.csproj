@@ -7,7 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Shared\AIrportEntry.razor.css" />
+    <None Remove="Shared\AirportStats.razor.css" />
+    <None Remove="Shared\Icons\AirplaneIcon.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Shared\AIrportEntry.razor.css" />
+    <Content Include="Shared\AirportStats.razor.css" />
+    <Content Include="Shared\Icons\AirplaneIcon.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Neo4j.Driver" Version="5.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
   </ItemGroup>
 
 </Project>

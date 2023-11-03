@@ -1,0 +1,46 @@
+﻿h1 {
+    font: 150px 'Righteous', sans-serif;
+    color: #090C9B;
+    padding-left: 50px;
+}
+
+.content-container {
+    width: 100%;
+    display: flex;
+    position: relative;
+}
+
+.info-window {
+    background: #FCF7FF;
+    display: inline-flex;
+    flex-direction: column;
+    width: 400px;
+    padding-top: 10px;
+    margin-left: 50px;
+    height: 500px;
+    box-shadow: rgba(0,0,0,0.2) -3px 3px 5px;
+    border-radius: 10px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 25px;
+}
+
+.main-input {
+    width: calc(100% - 40px);
+    height: 75px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    margin-left: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #3C3744;
+    background-color: transparent;
+}
+
+.input-div {
+    transition: border-radius ease-in-out 0.3s, transform ease-in-out 0.3s, box-shadow ease-in-out 0.3s;
+}
+    .input-div:focus-within {
+        border-radius: 30px;
+        transform: translate(0, -3px);
+        box-shadow: rgba(0,0,0,0.4) -3px 3px 10px;
+    }

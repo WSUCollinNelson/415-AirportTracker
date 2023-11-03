@@ -1,9 +1,28 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Airacle</PageTitle>
 
-<h1>Hello, world!</h1>
+<AirplaneIcon></AirplaneIcon>
 
-Welcome to your new app.
+<h1>Airacle</h1>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div class="content-container">
+    <div class="info-window input-div">
+        <input placeholder="Search Your City..." class="main-input"/>
+        <input placeholder="Your Country..." class="main-input"/>
+        <input placeholder="IATA/IACO Code..." class="main-input"/>
+        <input placeholder="Or Airport Name" class="main-input"/>
+    </div>
+
+    <div class="info-window input-div">
+        <AirportEntry ID="test1"/>
+        <AirportEntry ID="test2"/>
+        <AirportEntry ID="test3"/>
+        <AirportEntry ID="test4"/>
+        <AirportEntry ID="test5"/>
+    </div>
+
+    <div class="info-window">
+        <AirportStats/>
+    </div>
+</div>

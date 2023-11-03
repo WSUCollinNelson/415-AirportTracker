@@ -1,0 +1,38 @@
+﻿.container {
+    width: calc(100% - 40px);
+    height: 75px;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+    padding-top: 25px;
+    margin-left: 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: #3C3744;
+    background-color: transparent;
+}
+
+.location {
+    font-size: 15px;
+    color: #B4C5E4;
+}
+
+input[type="radio"] {
+    width: 0;
+    height: 0;
+}
+
+    input[type="radio"] + .container, input[type="radio"] + .container .location {
+        transition: color ease-in-out 0.2s;
+    }
+
+    input[type="radio"]:checked + .container {       
+        color: #3D52D5;
+    }
+
+        input[type="radio"]:checked + .container .location {
+            color: #090C9B;
+        }
+
+input[type="radio"]:focus + .container {
+    border-bottom: 1px solid #B4C5E4;
+}

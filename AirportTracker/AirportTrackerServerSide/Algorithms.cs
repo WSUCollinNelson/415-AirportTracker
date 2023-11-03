@@ -1,4 +1,5 @@
 ﻿using Neo4j.Driver;
+using Neo4j.Driver.Preview.Mapping;
 using System;
 
 namespace AirportTracker
@@ -15,7 +16,7 @@ namespace AirportTracker
 		public string GetAirport(string city)
 		{
 			RunCypher(@"MATCH (n) 
-				RETURN n.name LIMIT 1");
+				RETURN n LIMIT 10");
 			return "";
 		}
 
@@ -25,8 +26,10 @@ namespace AirportTracker
 			await session.ExecuteWriteAsync(
 				async tx => {
                     var test = await tx.RunAsync(cypher);
-					var testString = (await test.SingleAsync())[0].As<string>();
-                    Console.WriteLine(testString);
+					var output = test.AsObjectsAsync<Airport>();
+					await foreach (Airport name in output) {
+						Console.WriteLine(name.City);
+					}
                 }
 			);
 		}
