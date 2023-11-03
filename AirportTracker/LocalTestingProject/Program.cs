@@ -5,7 +5,9 @@
         public static void Main(string[] args)
         {
             DatabaseManager dbManager = new DatabaseManager();
-            Console.WriteLine(dbManager.GetAirport("Seattle").Name);
+            Airport? airport = dbManager.GetAirport("Seattle");
+            if (airport != null)
+                Console.WriteLine(airport.Name);
         }
     }
 }

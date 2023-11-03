@@ -15,19 +15,27 @@ namespace AirportTracker
 			_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "password"));
 		}
 
-		public Airport GetAirport(string city)
+		public Airport? GetAirport(string city)
 		{
-	        var airportQueryResult = RunCypher(
-                @$"MATCH (n:Airport {{city: '{city}'}})
-				RETURN 
-					n.name, n.id, n.city, n.country, 
-					n.iata, n.iaco, n.latitude, 
-					n.longitude, n.altitude, 
-					n.timezone, n.dst, n.tztime, 
-					n.type, n.source 
-				LIMIT 1").Result;
+			IReadOnlyDictionary<string, object> airportQueryResult;
+            try
+			{
+				airportQueryResult = RunCypher(
+					@$"MATCH (n:Airport {{city: '{city}'}})
+					RETURN 
+						n.name, n.id, n.city, n.country, 
+						n.iata, n.iaco, n.latitude, 
+						n.longitude, n.altitude, 
+						n.timezone, n.dst, n.tztime, 
+						n.type, n.source 
+					LIMIT 1").Result;
+			}
+			catch (System.AggregateException)
+			{
+				return null;
+			}
 
-			Airport airport = new Airport();
+            Airport airport = new Airport();
             airport.Name = airportQueryResult["n.name"].As<string>();
 			airport.Id = airportQueryResult["n.id"].As<int>();
 			airport.City = airportQueryResult["n.city"].As<string>();
