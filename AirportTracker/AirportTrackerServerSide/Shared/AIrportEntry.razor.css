@@ -1,6 +1,5 @@
 ﻿.container {
     width: calc(100% - 40px);
-    height: 75px;
     border: none;
     outline: none;
     padding-left: 10px;
@@ -14,6 +13,7 @@
 .location {
     font-size: 15px;
     color: #B4C5E4;
+    margin-top: -15px;
 }
 
 input[type="radio"] {

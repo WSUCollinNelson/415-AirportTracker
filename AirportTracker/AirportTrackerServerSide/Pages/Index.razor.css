@@ -22,7 +22,12 @@
     border-radius: 10px;
     font-family: 'Josefin Sans', sans-serif;
     font-size: 25px;
+    overflow:scroll;
 }
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
 
 .main-input {
     width: calc(100% - 40px);

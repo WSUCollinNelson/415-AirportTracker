@@ -5,6 +5,6 @@ namespace AirportTracker.Shared
     public partial class AirportEntry
     {
         [Parameter]
-        public string ID { get; set; } = "";
+        public Airport Source { get; set; }
     }
 }

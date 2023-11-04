@@ -8,18 +8,17 @@
 
 <div class="content-container">
     <div class="info-window input-div">
-        <input placeholder="Search Your City..." class="main-input"/>
-        <input placeholder="Your Country..." class="main-input"/>
-        <input placeholder="IATA/IACO Code..." class="main-input"/>
-        <input placeholder="Or Airport Name" class="main-input"/>
+        <input placeholder="Search Your City..." class="main-input" @bind="City"/>
+        <input placeholder="Your Country..." class="main-input" @bind="Country"/>
+        <input placeholder="IATA/IACO Code..." class="main-input" @bind="Code"/>
+        <input placeholder="Or Airport Name" class="main-input" @bind="Name"/>
     </div>
 
     <div class="info-window input-div">
-        <AirportEntry ID="test1"/>
-        <AirportEntry ID="test2"/>
-        <AirportEntry ID="test3"/>
-        <AirportEntry ID="test4"/>
-        <AirportEntry ID="test5"/>
+        @foreach(Airport airport in AirportsToDisplay)
+        {
+            <AirportEntry Source=airport/>
+        }
     </div>
 
     <div class="info-window">
