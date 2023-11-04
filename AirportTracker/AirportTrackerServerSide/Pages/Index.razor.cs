@@ -34,6 +34,9 @@ namespace AirportTracker.Pages
 
             PopulateDetails.NewAirportSelected += RecomputeDetails;
 
+            PaulTest paulTest = new PaulTest();
+            paulTest.HelloWorld();
+
             await base.OnInitializedAsync();
         }
 
