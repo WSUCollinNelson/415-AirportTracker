@@ -1,4 +1,5 @@
-﻿using AirportTracker.Neo4jConnect;
+﻿using AirportTracker.DataManagerServices;
+using AirportTracker.Neo4jConnect;
 using Microsoft.AspNetCore.Components;
 using System.Runtime.CompilerServices;
 
@@ -8,6 +9,9 @@ namespace AirportTracker.Pages
     {
         [Inject]
         private IBindNeo4j? Neo4jBindings { get; set; } = default;
+
+        [Inject]
+        private IPopulateDetails PopulateDetails { get; set; }
 
         protected List<Airport> AirportsToDisplay { get; set; } = new List<Airport>();
         protected string City { get { return _city; } set { _city = value; RecomposeFilter(); } }
@@ -19,12 +23,16 @@ namespace AirportTracker.Pages
         protected string Code { get { return _code; } set { _code = value; RecomposeFilter(); } }
         private string _code = "";
 
+        protected Airport? DisplayedAirport = null;
+
         protected override async Task OnInitializedAsync() 
         {
             if (Neo4jBindings != null)
             {
                 AirportsToDisplay = await Neo4jBindings.GetAirportsWithFilter("", 10);
             }
+
+            PopulateDetails.NewAirportSelected += RecomputeDetails;
 
             await base.OnInitializedAsync();
         }
@@ -35,8 +43,14 @@ namespace AirportTracker.Pages
             {
                 string filter = $"n.city CONTAINS \"{City}\" AND n.country CONTAINS \"{Country}\" AND (n.iata CONTAINS \"{Code}\" OR n.iaco CONTAINS \"{Code}\") AND n.name CONTAINS \"{Name}\"";
                 AirportsToDisplay = await Neo4jBindings.GetAirportsWithFilter(filter, 10);
-                StateHasChanged();
+                RecomputeDetails(AirportsToDisplay.Count() > 0 ? AirportsToDisplay[0] : null);
             }
+        }
+
+        protected void RecomputeDetails(Airport airport) 
+        {
+            DisplayedAirport = airport;
+            InvokeAsync(StateHasChanged);
         }
     }
 }

@@ -22,6 +22,9 @@
     </div>
 
     <div class="info-window">
-        <AirportStats/>
+        @if (DisplayedAirport != null) 
+        {
+            <AirportStats Source="DisplayedAirport"/>
+        }
     </div>
 </div>
