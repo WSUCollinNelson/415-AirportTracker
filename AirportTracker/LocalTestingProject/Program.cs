@@ -19,9 +19,13 @@
             Airport dubaiAirport = dbManager.GetAirports("Dubai")[0];
 
             Console.WriteLine("Path between Pullman and Dubai:");
+            Console.WriteLine($"Start: {pullmanAirport.Name}");
             foreach (Route route in dbManager.GetShortestPathBetweenAirports(pullmanAirport, dubaiAirport))
             {
-                Console.WriteLine(route.DestID);
+                foreach(Airport airport in dbManager.GetAirportsWithFilter($"n.id = {route.DestID}").Result)
+                {
+                    Console.WriteLine($"To airport: {airport.Name}");
+                }
             }
         }
     }
