@@ -14,8 +14,13 @@
             {
                 if (value < current.Value)
                 {
-                    returnRank += current.Rank;
+                    returnRank += current.Rank + 1;
                     current = current.Right;
+                }
+                else if(value == current.Value)
+                {
+                    returnRank += current.Rank;
+                    break;
                 }
                 else 
                 {

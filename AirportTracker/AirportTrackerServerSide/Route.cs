@@ -13,9 +13,5 @@
         public int Stops { get; set; }
         public string Equipment { get; set; } = "";
 
-        //DERIVED LINKS
-        public Airport? SourceAirport { get; private set; }
-        public Airport? DestAirport { get; private set; }
-
     }
 }
