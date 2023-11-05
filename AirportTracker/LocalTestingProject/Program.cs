@@ -15,15 +15,12 @@
             List<Airport> nonexistentAirports = dbManager.GetAirports("not a real city name");
             Console.WriteLine(nonexistentAirports.Count);
 
-            //Airport? airport1 = dbManager.GetAirport("Seattle");
-            //Airport? airport2 = dbManager.GetAirport("Spokane");
-            //if (airport1 != null && airport2 != null)
-            //{
-            //    Console.WriteLine(airport1.Name);
-            //    Console.WriteLine(airport2.Name);
-            //
-            //    dbManager.GetPathBetweenAirports(airport1, airport2);
-            //}
+            Console.WriteLine("\n\tPath Test\n");
+
+            Airport pullmanAirport = dbManager.GetAirports("Pullman")[0];
+            Airport dubaiAirport = dbManager.GetAirports("Dubai")[0];
+
+            Console.WriteLine(dbManager.GetShortestPathBetweenAirports(pullmanAirport, dubaiAirport));
         }
     }
 }

@@ -16,20 +16,38 @@ namespace AirportTracker
 			_driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "password"));
 		}
 		
-		// TODO can do a shortest path, but for now just take the first one
-		public List<Route> GetPathBetweenAirports(Airport source, Airport destination)
-		{
-			List<Route> path = new List<Route>();
+		public List<Route> GetShortestPathBetweenAirports(Airport source, Airport destination)
+        {
+            List<List<Route>> paths = new List<List<Route>>();
 
-            var adjacentQueryResult = RunCypher(
-				@$"MATCH(a:Airport {{id: {source.Id}}})--> (n)
-				RETURN n.id").Result;
+            List<Route> startingRoutes = GetRoutesWithFilter($"n.sourceid = {source.Id}").Result;
+            foreach (Route startingRoute in startingRoutes)
+            {
+                paths.Add(new List<Route> { startingRoute });
+            }
 
-			Console.WriteLine(adjacentQueryResult["n.id"]);
+            while (true)
+            {
+                List<List<Route>> pathsOfOneStepFurther = new List<List<Route>>();
+                foreach (List<Route> path in paths)
+                {
+                    Airport? lastAirportInPath = path.Last<Route>().DestAirport;
+                    if (lastAirportInPath == null)
+                        continue;
 
-            // only worry about source id and dest id for the time being
-
-            return path;
+                    if (lastAirportInPath.Id == destination.Id)
+                    {
+                        return path;
+                    }
+                    List<Route> outgoingRoutesFromLastAirport = GetRoutesWithFilter($"n.sourceid = {lastAirportInPath.Id}").Result;
+                    foreach (Route additionalRouteToPath in outgoingRoutesFromLastAirport)
+                    {
+                        List<Route> pathOfOneStepFurther = new List<Route>(path) { additionalRouteToPath };
+                        pathsOfOneStepFurther.Add(pathOfOneStepFurther);
+                    }
+                }
+                paths = pathsOfOneStepFurther;
+            }
 		}
 
 		public List<Airport> GetAirports(string city)
@@ -68,5 +86,79 @@ namespace AirportTracker
 			);
 			return result;
 		}
-	}
+
+        // NOTE: the following is grabbed from main (so I didn't have to do any funky integration stuff)
+
+        public async Task<List<Airport>> GetAirportsWithFilter(string filter = "", int maxCount = 10000)
+        {
+            using var session = _driver.AsyncSession();
+            List<Airport> output = await session.ExecuteWriteAsync(
+                async tx => {
+                    List<Airport> airportCache = new List<Airport>();
+                    IResultCursor result = await tx.RunAsync($@"MATCH (n:Airport) 
+                        {(filter == "" ? "" : $"WHERE {filter}")}
+                        RETURN n LIMIT {maxCount}");
+                    var output = result.AsObjectsAsync<Airport>();
+                    await foreach (Airport name in output)
+                    {
+                        airportCache.Add(name);
+                    }
+                    return airportCache;
+                }
+            );
+
+            return output;
+        }
+
+        public async Task<List<Route>> GetRoutesWithFilter(string filter = "", int maxCount = 100000)
+        {
+            using var session = _driver.AsyncSession();
+            List<Route> output = await session.ExecuteWriteAsync(
+                async tx => {
+                    List<Route> routeCache = new List<Route>();
+                    IResultCursor result = await tx.RunAsync($@"MATCH (s:Airport)-[n:ROUTE]->(d:Airport) 
+                        {(filter == "" ? "" : $"WHERE {filter}")}
+                        RETURN n LIMIT {maxCount}");
+                    var output = result.AsObjectsAsync<Route>();
+                    await foreach (Route name in output)
+                    {
+                        routeCache.Add(name);
+                    }
+                    return routeCache;
+                }
+            );
+
+            return output;
+        }
+
+        public async Task<int> CountQuery(string filter)
+        {
+            using var session = _driver.AsyncSession();
+            int output = await session.ExecuteWriteAsync(
+                async tx => {
+                    IResultCursor result = await tx.RunAsync($@"MATCH {filter}
+                        RETURN count(n)");
+                    return (await result.SingleAsync())[0].As<int>();
+                }
+            );
+
+            return output;
+        }
+
+        public async void ForeachAirport(Action<Airport> action)
+        {
+            using var session = _driver.AsyncSession();
+            await session.ExecuteWriteAsync(
+                async tx => {
+                    List<Airport> airportCache = new List<Airport>();
+                    IResultCursor result = await tx.RunAsync($@"MATCH (n:Airport) RETURN n");
+                    var output = result.AsObjectsAsync<Airport>();
+                    await foreach (Airport airport in output)
+                    {
+                        action(airport);
+                    }
+                }
+            );
+        }
+}
 }
