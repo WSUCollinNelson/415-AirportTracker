@@ -31,15 +31,12 @@ namespace AirportTracker
                 List<List<Route>> pathsOfOneStepFurther = new List<List<Route>>();
                 foreach (List<Route> path in paths)
                 {
-                    Airport? lastAirportInPath = path.Last<Route>().DestAirport;
-                    if (lastAirportInPath == null)
-                        continue;
-
-                    if (lastAirportInPath.Id == destination.Id)
+                    int lastAirportInPathID = path.Last<Route>().DestID;
+                    if (lastAirportInPathID == destination.Id)
                     {
                         return path;
                     }
-                    List<Route> outgoingRoutesFromLastAirport = GetRoutesWithFilter($"n.sourceid = {lastAirportInPath.Id}").Result;
+                    List<Route> outgoingRoutesFromLastAirport = GetRoutesWithFilter($"n.sourceid = {lastAirportInPathID}").Result;
                     foreach (Route additionalRouteToPath in outgoingRoutesFromLastAirport)
                     {
                         List<Route> pathOfOneStepFurther = new List<Route>(path) { additionalRouteToPath };

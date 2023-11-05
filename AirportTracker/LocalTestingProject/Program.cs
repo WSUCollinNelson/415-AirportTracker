@@ -15,12 +15,14 @@
             List<Airport> nonexistentAirports = dbManager.GetAirports("not a real city name");
             Console.WriteLine(nonexistentAirports.Count);
 
-            Console.WriteLine("\n\tPath Test\n");
-
             Airport pullmanAirport = dbManager.GetAirports("Pullman")[0];
             Airport dubaiAirport = dbManager.GetAirports("Dubai")[0];
 
-            Console.WriteLine(dbManager.GetShortestPathBetweenAirports(pullmanAirport, dubaiAirport));
+            Console.WriteLine("Path between Pullman and Dubai:");
+            foreach (Route route in dbManager.GetShortestPathBetweenAirports(pullmanAirport, dubaiAirport))
+            {
+                Console.WriteLine(route.DestID);
+            }
         }
     }
 }
