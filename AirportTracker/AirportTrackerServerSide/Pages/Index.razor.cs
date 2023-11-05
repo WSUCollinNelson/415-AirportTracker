@@ -45,8 +45,7 @@ namespace AirportTracker.Pages
             paulTest.HelloWorld();
             */
 
-            //var testShortPath2 = await Neo4jBindings.ShortestPathDjikstras((await Neo4jBindings.GetAirportsWithFilter("n.iata = \"LAX\"", 1))[0], (await Neo4jBindings.GetAirportsWithFilter("n.iata = \"PUW\"", 1))[0]);
-            //var testShortPath = await Neo4jBindings.GetShortestPathBetweenAirports((await Neo4jBindings.GetAirportsWithFilter("n.iata = \"LAX\"", 1))[0], (await Neo4jBindings.GetAirportsWithFilter("n.iata = \"PUW\"", 1))[0]);
+            //var testShortPath = await Neo4jBindings.ShortestPathDjikstras((await Neo4jBindings.GetAirportsWithFilter("n.iata = \"PUW\"", 1))[0], (await Neo4jBindings.GetAirportsWithFilter("n.iata = \"ITM\"", 1))[0]);
 
 
             await PrecomputeRankTrees();
