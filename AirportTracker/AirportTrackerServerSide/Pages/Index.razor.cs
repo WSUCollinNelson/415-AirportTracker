@@ -1,5 +1,6 @@
 ﻿using AirportTracker.DataManagerServices;
 using AirportTracker.Neo4jConnect;
+using AirportTracker.RankTree;
 using Microsoft.AspNetCore.Components;
 using System.Runtime.CompilerServices;
 
@@ -25,7 +26,12 @@ namespace AirportTracker.Pages
 
         protected Airport? DisplayedAirport = null;
 
-        protected override async Task OnInitializedAsync() 
+        protected RankingTree OutgoingRanks;
+        protected Dictionary<int, int> OutgoingCounts;
+        protected RankingTree IncomingRanks;
+        protected Dictionary<int, int> IncomingCounts;
+
+        protected override async Task OnInitializedAsync()
         {
             if (Neo4jBindings != null)
             {
@@ -36,8 +42,50 @@ namespace AirportTracker.Pages
 
             PaulTest paulTest = new PaulTest();
             paulTest.HelloWorld();
+            await PrecomputeRankTrees();
 
             await base.OnInitializedAsync();
+        }
+
+        private async Task PrecomputeRankTrees()
+        {
+            if (OutgoingRanks == null)
+            {
+                OutgoingRanks = new RankingTree();
+                OutgoingCounts = new Dictionary<int, int>();
+                IncomingRanks = new RankingTree();
+                IncomingCounts = new Dictionary<int, int>();
+
+                List<Route> routes = await Neo4jBindings.GetRoutesWithFilter("", 100000);
+                foreach (Route route in routes)
+                {
+                    if (OutgoingCounts.ContainsKey(route.SourceID))
+                    {
+                        OutgoingCounts[route.SourceID]++;
+                    }
+                    else
+                    {
+                        OutgoingCounts.Add(route.SourceID, 1);
+                    }
+
+                    if (IncomingCounts.ContainsKey(route.DestID))
+                    {
+                        IncomingCounts[route.DestID]++;
+                    }
+                    else
+                    {
+                        IncomingCounts.Add(route.DestID, 1);
+                    }
+                }
+                foreach (int key in OutgoingCounts.Keys)
+                {
+                    OutgoingRanks.Insert(key, OutgoingCounts[key]);
+                }
+                foreach (int key in IncomingCounts.Keys)
+                {
+                    IncomingRanks.Insert(key, IncomingCounts[key]);
+                }
+            }
         }
 
         protected async void RecomposeFilter() 

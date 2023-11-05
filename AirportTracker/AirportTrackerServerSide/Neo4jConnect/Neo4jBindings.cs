@@ -14,7 +14,7 @@ namespace AirportTracker.Neo4jConnect
             driver = GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "password"));
         }
 
-        public async Task<List<Airport>> GetAirportsWithFilter(string filter = "", int maxCount = 10)
+        public async Task<List<Airport>> GetAirportsWithFilter(string filter = "", int maxCount = 10000)
         {
             using var session = driver.AsyncSession();
             List<Airport> output = await session.ExecuteWriteAsync(
@@ -29,6 +29,27 @@ namespace AirportTracker.Neo4jConnect
                         airportCache.Add(name);
                     }
                     return airportCache;
+                }
+            );
+
+            return output;
+        }
+
+        public async Task<List<Route>> GetRoutesWithFilter(string filter = "", int maxCount = 100000)
+        {
+            using var session = driver.AsyncSession();
+            List<Route> output = await session.ExecuteWriteAsync(
+                async tx => {
+                    List<Route> routeCache = new List<Route>();
+                    IResultCursor result = await tx.RunAsync($@"MATCH (s:Airport)-[n:ROUTE]->(d:Airport) 
+                        {(filter == "" ? "" : $"WHERE {filter}")}
+                        RETURN n LIMIT {maxCount}");
+                    var output = result.AsObjectsAsync<Route>();
+                    await foreach (Route name in output)
+                    {
+                        routeCache.Add(name);
+                    }
+                    return routeCache;
                 }
             );
 
