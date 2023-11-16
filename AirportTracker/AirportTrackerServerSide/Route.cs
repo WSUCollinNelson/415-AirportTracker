@@ -9,9 +9,5 @@
         public int SourceID { get; set; }
         public string Dest { get; set; } = "";
         public int DestID { get; set; }
-        public string Codeshare { get; set; } = "";
-        public int Stops { get; set; }
-        public string Equipment { get; set; } = "";
-
     }
 }

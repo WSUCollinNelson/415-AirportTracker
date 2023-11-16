@@ -43,7 +43,7 @@ namespace DatabaseBuilder
         public void CreateAirport(List<string> line)
         {
             RunCypher(
-                $@"CREATE (a:Airport {{id: {line[0]}, name: ""{line[1]}"", city: ""{line[2]}"", country: ""{line[3]}"", iata: ""{line[4]}"", iaco: ""{line[5]}"", latitude: {line[6]}, longitude: {line[7]}, altitude: {line[8]}, timezone: ""{line[9]}"", dst: ""{line[10]}"", tztime: ""{line[11]}"",type: ""{line[12]}"", source: ""{line[13]}""}})"
+                $@"CREATE (a:Airport {{id: {line[0]}, name: ""{line[1]}"", city: ""{line[2]}"", country: ""{line[3]}"", iata: ""{line[4]}"", iaco: ""{line[5]}"", timezone: ""{line[9]}"", tztime: ""{line[11]}""}})"
             );
         }
 
@@ -52,7 +52,7 @@ namespace DatabaseBuilder
             //NOTE: Mostly fill in the blank here, but airline ID's with the value \N are replaced with -1 so that the field can be stored as an int.
             RunCypher(
                 $@"MATCH (source:Airport {{id: {line[3]}}}), (dest:Airport {{id: {line[5]}}})
-			CREATE (source)-[:ROUTE {{airline: ""{line[0]}"", airlineid: {(line[1] == "\\N" ? -1 : line[1])}, source: ""{line[2]}"", sourceid: {line[3]}, dest: ""{line[4]}"", destid: {line[5]}, codeshare: ""{line[6]}"", stops: {line[7]}, equipment: ""{line[8]}""}}]->(dest)"
+			CREATE (source)-[:ROUTE {{airline: ""{line[0]}"", airlineid: {(line[1] == "\\N" ? -1 : line[1])}, source: ""{line[2]}"", sourceid: {line[3]}, dest: ""{line[4]}"", destid: {line[5]}}}]->(dest)"
             );
             return "";
         }
