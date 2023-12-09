@@ -1,4 +1,5 @@
 using AirportTracker.DataManagerServices;
+using AirportTracker.EndpointProvider;
 using AirportTracker.Neo4jConnect;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -11,6 +12,7 @@ builder.Services.AddServerSideBlazor();
 
 builder.Services.AddSingleton<IBindNeo4j, Neo4jBindings>();
 builder.Services.AddSingleton<IPopulateDetails, DetailsPopulator>();
+builder.Services.AddSingleton<IProvideEndpoints, EndpointProvider>();
 
 var app = builder.Build();
 

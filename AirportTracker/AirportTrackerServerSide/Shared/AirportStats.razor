@@ -1,4 +1,9 @@
 ﻿<div class="wrapper">
+    <div id="endpoint-button-container">
+        <button class="endpoint-button" @onclick="SetSource">S</button>
+        <button class="endpoint-button" @onclick="SetDestination">D</button>
+    </div>
+
     <h2>@Source.Name</h2>
     <p class="codes">@(Source.IATA == "\\N" ? "N/A" : Source.IATA)-@(Source.IACO)</p>
     <p class="location">@Source.City, @Source.Country</p>

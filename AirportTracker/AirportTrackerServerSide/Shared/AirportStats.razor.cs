@@ -1,4 +1,5 @@
-﻿using AirportTracker.Neo4jConnect;
+﻿using AirportTracker.EndpointProvider;
+using AirportTracker.Neo4jConnect;
 using AirportTracker.RankTree;
 using Microsoft.AspNetCore.Components;
 
@@ -8,6 +9,9 @@ namespace AirportTracker.Shared
     {
         [Inject]
         public IBindNeo4j Neo4jBindings { get; set; }
+
+        [Inject]
+        public IProvideEndpoints mEndpointProvider { get; set; }
 
         [Parameter]
         public Airport Source { get; set; }
@@ -36,6 +40,16 @@ namespace AirportTracker.Shared
             IncomingRank = InRankTree.GetRank(Incoming);
 
             await base.OnParametersSetAsync();
+        }
+
+        protected void SetSource()
+        {
+            mEndpointProvider.SetSource(this.Source);
+        }
+
+        protected void SetDestination()
+        {
+            mEndpointProvider.SetDestination(this.Source);
         }
     }
 }
