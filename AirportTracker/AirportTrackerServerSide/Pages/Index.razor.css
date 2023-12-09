@@ -49,3 +49,17 @@
         transform: translate(0, -3px);
         box-shadow: rgba(0,0,0,0.4) -3px 3px 10px;
     }
+
+.close-button {
+    outline: none;
+    border: none;
+    background: #3D52D5;
+    color: #FCF7FF;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: fixed;
+    right: 30px;
+    top: 30px;
+    z-index: 2;
+}

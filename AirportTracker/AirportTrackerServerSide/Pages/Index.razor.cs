@@ -1,4 +1,5 @@
 ﻿using AirportTracker.DataManagerServices;
+using AirportTracker.EndpointProvider;
 using AirportTracker.Neo4jConnect;
 using AirportTracker.RankTree;
 using Microsoft.AspNetCore.Components;
@@ -14,7 +15,11 @@ namespace AirportTracker.Pages
         [Inject]
         private IPopulateDetails PopulateDetails { get; set; }
 
+        [Inject]
+        private IProvideEndpoints endpointProvider { get; set; }
+
         protected List<Airport> AirportsToDisplay { get; set; } = new List<Airport>();
+        protected List<Airport> ShortestPath { get; set; } = new List<Airport>();
         protected string City { get { return _city; } set { _city = value; RecomposeFilter(); } }
         private string _city = "";
         protected string Country { get { return _country; } set { _country = value; RecomposeFilter(); } }
@@ -39,14 +44,7 @@ namespace AirportTracker.Pages
             }
 
             PopulateDetails.NewAirportSelected += RecomputeDetails;
-
-            /*
-            PaulTest paulTest = new PaulTest();
-            paulTest.HelloWorld();
-            */
-
-            //var testShortPath = await Neo4jBindings.ShortestPathDjikstras((await Neo4jBindings.GetAirportsWithFilter("n.iata = \"PUW\"", 1))[0], (await Neo4jBindings.GetAirportsWithFilter("n.iata = \"ITM\"", 1))[0]);
-
+            endpointProvider.ShortestPathGenerated += ShowShortestPath;
 
             await PrecomputeRankTrees();
 
@@ -107,6 +105,18 @@ namespace AirportTracker.Pages
         protected void RecomputeDetails(Airport airport) 
         {
             DisplayedAirport = airport;
+            InvokeAsync(StateHasChanged);
+        }
+
+        protected void ShowShortestPath(List<Airport> airports) 
+        {
+            ShortestPath = airports;
+            InvokeAsync(StateHasChanged);
+        }
+
+        protected void HideShortestPath() 
+        {
+            ShortestPath.Clear();
             InvokeAsync(StateHasChanged);
         }
     }

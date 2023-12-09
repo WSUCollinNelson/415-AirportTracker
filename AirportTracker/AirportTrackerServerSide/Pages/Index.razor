@@ -6,6 +6,12 @@
 
 <h1>Airacle</h1>
 
+@if (ShortestPath.Count > 0)
+{
+    <button class="close-button" @onclick="HideShortestPath">✖</button>
+    <ShortestPathDisplay Path="ShortestPath"/>
+}
+
 <EndpointDisplay/>
 
 <div class="content-container">

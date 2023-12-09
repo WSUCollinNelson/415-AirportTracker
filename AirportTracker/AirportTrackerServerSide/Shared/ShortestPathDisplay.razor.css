@@ -1,0 +1,38 @@
+﻿#container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.entry {
+    height: 80px;
+    width: 70%;
+    background: #FCF7FF;
+    border-radius: 10px;
+    font: 35px 'Josefin Sans', sans-serif;
+    padding: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+}
+
+    .entry span {
+        font-size: 20px;
+        color: #B4C5E4;
+    }
+
+.arrow {
+    color: #3D52D5;
+    font-size: 80px;
+    margin-top: -70px;
+    margin-bottom: -20px;
+}

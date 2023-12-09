@@ -15,11 +15,27 @@
         margin-right: 20px;
     }
 
+    #container > button {
+        border: none;
+        outline: none;
+        height: 40px;
+        width: 100px;
+        font: bold 20px 'Josefin Sans', sans-serif;
+        color: white;
+        background: #090C9B;
+        border-radius: 10px;
+        transition: background 0.2s ease;
+    }
+
+        #container > button:hover {
+            background: #0B0EC1;
+        }
+
 .endpoint {
     display: block;
     height: 40px;
     border-radius: 10px;
-    width: 300px;
+    width: 100px;
     background: #FCF7FF;
     font: 20px 'Josefin Sans', sans-serif;
     padding: 12px;

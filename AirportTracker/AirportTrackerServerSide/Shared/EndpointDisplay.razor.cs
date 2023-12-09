@@ -22,9 +22,14 @@ namespace AirportTracker.Shared
 
         protected void Update((Airport?, Airport?) airports) 
         {
-            this.Source = airports.Item1?.Name ?? "";
-            this.Destination = airports.Item2?.Name ?? "";
-            StateHasChanged();
+            this.Source = airports.Item1?.IACO ?? "";
+            this.Destination = airports.Item2?.IACO ?? "";
+            InvokeAsync(StateHasChanged);
+        }
+
+        protected async Task GetShortestPath() 
+        {
+            await endpointProvider.GetShortestPath();
         }
     }
 }

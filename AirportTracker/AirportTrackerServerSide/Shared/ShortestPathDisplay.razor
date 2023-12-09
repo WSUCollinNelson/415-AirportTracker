@@ -1,0 +1,10 @@
+﻿<div id="container">
+    @foreach(Airport airport in Path)
+    {
+        <div class="entry">@airport.Name <span>@airport.City - @airport.IATA/@airport.IACO</span></div>
+        @if (airport != Path.Last())
+        {
+            <span class="arrow">▼</span>
+        }
+    }
+</div>
