@@ -6,7 +6,7 @@ public class AirportDataIngestor
     public static void Main()
     {
         //If true, will only load the first 300 airports and routes that connect them. Makes things way faster for testing.
-        bool quickModeEnabled = true;
+        bool quickModeEnabled = false;
         if (quickModeEnabled)
         {
             Console.WriteLine("Running with quick mode enabled. Will only load the first 300 airports and routes that connect them.");

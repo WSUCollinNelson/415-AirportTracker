@@ -6,7 +6,11 @@
     <div id="dest" class="@(Destination == "" ? "filler endpoint" : "endpoint" )">
         @(Destination == "" ? "DST" : Destination)
     </div>
-    @if (Source != "" && Destination != "") { 
-        <button @onclick="GetShortestPath">Route</button>
+    @if (Source != "" && Destination != "") {
+        @if (Working) {
+            <span class="rotator">↻</span>
+        } else {
+            <button @onclick="GetShortestPath">Route</button>
+        }
     }
 </div>

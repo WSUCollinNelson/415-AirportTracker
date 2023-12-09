@@ -31,6 +31,18 @@
             background: #0B0EC1;
         }
 
+    #container > .rotator {
+        animation: rotate 1s linear;
+        animation-iteration-count: infinite;
+        color: #FCF7FF;
+        background: #090C9B;
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        text-align: center;
+        padding: 1.5px;
+    }
+
 .endpoint {
     display: block;
     height: 40px;
@@ -49,3 +61,13 @@
     .endpoint.filler {
         color: #B4C5E4;
     }
+
+@keyframes rotate{
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

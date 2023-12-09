@@ -10,10 +10,11 @@
     align-items: center;
     justify-content: center;
     z-index: 1;
+    overflow: scroll;
 }
 
 .entry {
-    height: 80px;
+    min-height: 80px;
     width: 70%;
     background: #FCF7FF;
     border-radius: 10px;
@@ -35,4 +36,8 @@
     font-size: 80px;
     margin-top: -70px;
     margin-bottom: -20px;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }

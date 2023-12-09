@@ -10,6 +10,7 @@ namespace AirportTracker.Shared
 
         protected string Source { get; set; } = "";
         protected string Destination { get; set; } = "";
+        protected bool Working { get; set; } = false;
 
         protected override void OnAfterRender(bool firstRender)
         {
@@ -29,7 +30,11 @@ namespace AirportTracker.Shared
 
         protected async Task GetShortestPath() 
         {
+            Working = true;
+            StateHasChanged();
             await endpointProvider.GetShortestPath();
+            Working = false;
+            StateHasChanged();
         }
     }
 }
